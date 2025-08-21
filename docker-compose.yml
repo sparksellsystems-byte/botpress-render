@@ -1,27 +1,11 @@
 version: '3'
 services:
   botpress:
-    build: .
+    image: botpress/server:latest
     ports:
       - "3000:3000"
-    environment:
-      - BP_LICENSE_KEY=
-      - DATABASE_URL=postgres://postgres:password@db:5432/botpress
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - db
-      - redis
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=botpress
     volumes:
-      - db-data:/var/lib/postgresql/data
-  redis:
-    image: redis:6
-    volumes:
-      - redis-data:/data
-volumes:
-  db-data:
-  redis-data:
+      - ./data:/botpress/data
+    environment:
+      - BPFS_STORAGE=database
+      - DATABASE_URL=postgres://user:pass@host:5432/dbname  # Replace with your DB details if using external Postgres
